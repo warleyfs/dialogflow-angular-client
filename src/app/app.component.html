@@ -1,0 +1,9 @@
+<div class="overlay" [hidden]="settingsLoaded">
+    <div class="loader">
+        <div class="spinner"></div>
+    </div>
+</div>
+<div class="chatform">
+  <message-list [messages]="messages"></message-list>
+  <message-form [userMessage]="userMessage" [messages]="messages" [settings]="settings"></message-form>
+</div>

@@ -1,0 +1,39 @@
+<li class="list-group-item">
+  <img [src]="message.avatar" class="avatar"/>
+  <div class="message-container">
+      <div class="message">
+          <div *ngFor="let content of message.content" [ngSwitch]="content.type" class="mb-3">
+            <!-- basic_card -->
+            <div *ngSwitchCase="'basic_card'">
+              <div class="card" style="width: 18rem;">
+                <img class="card-img-top" [src]="content.imageUrl" [alt]="content.title">
+                <div class="card-body p-2">
+                  <h5 class="card-title">{{ content.title }}</h5>
+                  <p class="card-text">{{ content.formattedText }}</p>
+                  <a *ngFor="let button of content.buttons" [href]="button.url" target="_blank" role="button" class="btn btn-primary btn-sm mr-2">{{ button.title }}</a>
+                </div>
+              </div>
+            </div>
+            <!-- carousel_card -->
+            <div *ngSwitchCase="'carousel_card'">{{ content.displayText }}</div>
+            <!-- link_out_chip -->
+            <div *ngSwitchCase="'link_out_chip'">
+                <a [href]="content.url" target="_blank" role="button" class="suggestion link btn btn-sm btn-outline-info">
+                  {{ content.destinationName }} <i class="fa fa-external-link-square"></i>
+                </a>
+            </div>
+            <!-- list_card -->
+            <div *ngSwitchCase="'list_card'">{{ content.displayText }}</div>
+            <!-- simple_text -->
+            <span *ngSwitchCase="'simple_text'">{{ content.displayText }}</span>
+            <!-- suggestion_chip -->
+            <div *ngSwitchCase="'suggestion_chip'">{{ content.displayText }}</div>
+            <!--  -->
+            <span *ngSwitchDefault>{{ content.displayText }}</span>
+          </div>
+        </div>
+        <div class="timeform">
+          <i class="fa fa-clock-o" aria-hidden="true"></i> <span class="timestamp">{{ message.timestamp | date : 'dd/MM/yyyy HH:mm ' }}</span>
+        </div>
+  </div>
+</li>
