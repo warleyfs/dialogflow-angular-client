@@ -6,8 +6,7 @@ export class BasicCard extends Content {
 
     constructor(
         public title: string,
-        public subtitle: string,
-        public formattedText: string,
+        public text: string,
         public imageUrl: string,
         public buttons: Array<Button>
     ) {

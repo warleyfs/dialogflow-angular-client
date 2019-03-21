@@ -1,6 +1,9 @@
-import { Component, OnInit, Input, AfterViewInit, ViewChild, ViewChildren, QueryList, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, ViewChild, ViewChildren, QueryList,
+         ElementRef, Output, EventEmitter } from '@angular/core';
 import { Message } from './../../models';
 import { MessageItemComponent } from './../../components/message-item/message-item.component';
+import { Content } from '../../models/content';
+import { SimpleText } from '../../models/simple-text';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -13,6 +16,8 @@ export class MessageListComponent implements OnInit, AfterViewInit {
   @Input('messages')
   public messages: Message[];
 
+  @Output() sendSimpleMessage = new EventEmitter<string>();
+
   @ViewChild('chatlist', { read: ElementRef }) chatList: ElementRef;
   @ViewChildren(MessageItemComponent, { read: ElementRef }) chatItems: QueryList<MessageItemComponent>;
 
@@ -23,6 +28,10 @@ export class MessageListComponent implements OnInit, AfterViewInit {
       // console.log('messsage list changed: ' + this.messages.length);
       this.scrollToBottom();
     });
+  }
+
+  private sendSimpleText(simpleText: string): void {
+    this.sendSimpleMessage.emit(simpleText);
   }
 
   private scrollToBottom(): void {

@@ -14,22 +14,12 @@ export class DialogflowService {
 
   constructor(private http: Http) { }
 
-  public getResponse(query: string, userName: string, agent: string) {
+  public getResponse(query: string, userId: string, agent: string) {
 
     switch (agent) {
-      case 'extensao':
+      case 'chatbot':
       {
-        this.token = environment.agents.extensao.token;
-        break;
-      }
-      case 'concurso':
-      {
-        this.token = environment.agents.concurso.token;
-        break;
-      }
-      case 'eac':
-      {
-        this.token = environment.agents.eac.token;
+        this.token = environment.agents.chatbot.token;
         break;
       }
     }
@@ -39,7 +29,7 @@ export class DialogflowService {
     const data = {
       query: query,
       lang: 'pt-BR',
-      sessionId: userName
+      sessionId: userId
     };
 
     return this.http

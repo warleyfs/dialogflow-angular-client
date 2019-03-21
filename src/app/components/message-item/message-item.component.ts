@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Message } from './../../models';
 
 @Component({
@@ -11,6 +11,12 @@ export class MessageItemComponent implements OnInit {
 
   @Input('message')
   public message: Message;
+
+  @Output() sendSimpleMessage = new EventEmitter<string>();
+
+  sendSuggestion(suggestionText: string) {
+    this.sendSimpleMessage.emit(suggestionText);
+  }
 
   constructor() { }
 

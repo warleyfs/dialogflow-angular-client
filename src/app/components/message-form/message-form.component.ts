@@ -32,68 +32,72 @@ export class MessageFormComponent implements OnInit {
   ngOnInit() {
   }
 
-  public sendMessage(): void {
+  public sendMessage(userMessageText: Message): void {
 
-    this.messages.push(new Message('assets/images/user.png', new Date(), new Array<Content>(new SimpleText(this.userMessage))));
+    if (userMessageText) {
+      this.messages.push(userMessageText);
+    } else {
+      this.messages.push(new Message('assets/images/user.png', new Date(), new Array<Content>(new SimpleText(this.userMessage))));
+    }
 
-    this.dialogFlowService.getResponse(this.userMessage, this.settings.userData.userName, this.settings.agent).subscribe(res => {
+    this.dialogFlowService.getResponse(this.userMessage, this.settings.userData.userId, this.settings.agent).subscribe(res => {
 
       const message = new Message('assets/images/bot.png', res.timestamp, []);
 
       res.result.fulfillment.messages.forEach(msg => {
-
-        if (msg.type === 4) {
-
-          switch (msg.payload.type) {
-            case 'simple_response':
+        switch (msg.type) {
+          case 0:
             {
-              message.content.push(new SimpleText(msg.payload.displayText));
+              message.content.push(new SimpleText(msg.speech));
               break;
             }
-            case 'basic_card': // Card
+          case 1: // Card
             {
-              const title = msg.payload.title;
-              const subtitle = msg.payload.subtitle;
-              const imageUrl = msg.payload.image.url;
-              const formattedText = msg.payload.formattedText;
+              const title = msg.title;
+              const text = msg.subtitle;
+              const imageUrl = msg.imageUrl;
               const buttons = new Array<Button>();
 
-              msg.payload.buttons.forEach(button => {
-                buttons.push(new Button(button.title, button.openUrlAction.url));
+              msg.buttons.forEach(button => {
+                buttons.push(new Button(button.text, button.postback));
               });
 
-              const card = new BasicCard(title, subtitle, formattedText, imageUrl, buttons);
+              const card = new BasicCard(title, text, imageUrl, buttons);
 
               message.content.push(card);
               break;
             }
-            case 'list_card': // List Response
+          case 2: // Suggestion Chip
+            {
+              const suggestions = Array<Button>();
+
+              msg.replies.forEach(suggestion => {
+                suggestions.push(new Button(suggestion, ''));
+              });
+
+              message.content.push(new SuggestionChip(suggestions));
+
+              break;
+            }
+          case 'list_card': // List Response
             {
               message.content.push(new ListCard());
               break;
             }
-            case 'suggestion_chips': // Suggestion Chip
-            {
-              message.content.push(new SuggestionChip());
-              break;
-            }
-            case 'carousel_card': // Carousel Card
+          case 'carousel_card': // Carousel Card
             {
               message.content.push(new CarouselCard());
               break;
             }
-            case 'link_out_chip': // Link Out Chip
+          case 'link_out_chip': // Link Out Chip
             {
               message.content.push(new LinkOutChip(msg.payload.destinationName, this.getFormattedUrl(msg.payload.url)));
               break;
             }
-            default:
+          default:
             {
               message.content.push(new SimpleText('Desculpe, não entendi. Poderia repetir?'));
             }
-          }
-        } else {
-          message.content.push(new SimpleText(msg.speech));
         }
       });
 

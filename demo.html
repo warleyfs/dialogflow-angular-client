@@ -1,31 +1,60 @@
 <!doctype html>
 <html lang="pt-BR">
-    <head>
-        <meta charset="utf-8">
-        <title>Uma página qualquer...</title>
-        <base href="/">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    </head>
-    <body>
-        <iframe id="bot-fundep" src="http://localhost:4200" width="500" height="600"></iframe>
-        <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-        <script type="text/javascript">
-            window.onload = function () {
-                debugger;
-                var iframe = document.getElementById("bot-fundep").contentWindow,
-                    settings = {
-                        agent: 'extensao', // extensao | concurso | eac
-                        userData: {
-                            userName: 55
-                        }
-                    };
 
-                iframe.postMessage(settings, "http://localhost:4200");
-            };
-        </script>
-    </body>
+<head>
+  <style>
+    html {
+      overflow: hidden;
+    }
+
+    body {
+      padding: 0px;
+    }
+
+    iframe {
+      margin: 0px;
+      border: 0px;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      top: 0;
+    }
+  </style>
+  <meta charset="utf-8">
+  <title>Uma página qualquer...</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+    integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+  <iframe id="chat-window" src="http://localhost:4200" width="100%" height="0"
+    style="margin: 0px; border: 0px;"></iframe>
+  <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
+    integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+    integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous">
+  </script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+    integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous">
+  </script>
+  <script type="text/javascript">
+    window.onload = function () {
+      var iframe = document.getElementById("chat-window").contentWindow,
+        settings = {
+          agent: 'chatbot',
+          userData: {
+            userId: 55
+          }
+        };
+
+      $("#chat-window").height(window.innerHeight)
+      iframe.postMessage(settings, "http://localhost:4200");
+    };
+  </script>
+</body>
+
 </html>

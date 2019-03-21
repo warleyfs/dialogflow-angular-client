@@ -1,5 +1,6 @@
+import { MessageFormComponent } from './components/message-form/message-form.component';
 import { environment } from './../environments/environment';
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, ViewChildren, ViewChild } from '@angular/core';
 import { Content } from './models/content';
 import { Message } from './models';
 import { SimpleText } from './models/simple-text';
@@ -15,6 +16,8 @@ export class AppComponent {
   public settingsLoaded = false;
   public settings: any;
 
+  @ViewChild(MessageFormComponent) chatForm: MessageFormComponent;
+
   @HostListener('window:message', ['$event'])
   onmessage(ev: MessageEvent) {
     this.getSettings(ev);
@@ -28,8 +31,13 @@ export class AppComponent {
       this.settings = evt.data;
       this.settingsLoaded = true;
       this.messages = [
-        new Message('assets/images/bot.png', new Date(), new Array<Content>(new SimpleText('Bem vindo ao chatbot da Fundep.')))
+        new Message('assets/images/bot.png', new Date(), new Array<Content>(new SimpleText('Bem vindo a demo de chatbot.')))
       ];
     }
+  }
+
+  private sendUserOptionMessage(simpleText: string) {
+    this.chatForm.userMessage = simpleText;
+    this.chatForm.sendMessage(new Message('assets/images/user.png', new Date(), new Array<Content>(new SimpleText(simpleText))));
   }
 }
